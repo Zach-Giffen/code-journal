@@ -16,3 +16,7 @@ h3 {
 p {
   font-family: 'Open Sans', sans-serif;
 }
+
+img {
+  max-width: 100%;
+}
