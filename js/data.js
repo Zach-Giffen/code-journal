@@ -1,3 +1,4 @@
+// /* global data */
 // /* exported data */
 
 // let data = {

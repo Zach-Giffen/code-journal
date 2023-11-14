@@ -16,6 +16,7 @@ const isData = localStorage.getItem('local-storage');
 if (isData !== null) {
   data = JSON.parse(isData);
 }
+
 // end of data.js
 
 const $photoInput = document.getElementById('photo-url');
@@ -51,3 +52,41 @@ $form.addEventListener('submit', function (event) {
   document.querySelector('.photo-url input').value = '';
   document.querySelector('.notes textarea').value = '';
 });
+
+function renderEntry(entry) {
+  const $unlisted = document.createElement('ul');
+  $unlisted.setAttribute('class', 'row');
+
+  const $listPhoto = document.createElement('li');
+  $listPhoto.setAttribute('class', 'column-half');
+
+  const $listImg = document.createElement('img');
+  $listImg.setAttribute('id', 'entryImg');
+  $listImg.setAttribute('class', 'photo-entry');
+  $listImg.setAttribute('src', entry.photo);
+  $listImg.setAttribute('alt', 'entry photo');
+
+  $listPhoto.appendChild($listImg);
+
+  const $listText = document.createElement('li');
+  $listText.setAttribute('class', 'column-half');
+
+  const $listName = document.createElement('h2');
+  $listName.setAttribute('class', 'name-entry');
+  $listName.textContent = entry.title;
+
+  const $listNotes = document.createElement('p');
+  $listNotes.setAttribute('class', 'notes-entry');
+  $listNotes.textContent = entry.notes;
+
+  $listText.appendChild($listName);
+  $listText.appendChild($listNotes);
+
+  $unlisted.appendChild($listPhoto);
+  $unlisted.appendChild($listText);
+
+  return $unlisted;
+}
+
+console.log(renderEntry(data.entries[0]));
+console.log(renderEntry(data.entries[2]));
