@@ -29,12 +29,10 @@ $form.addEventListener('submit', function (event) {
     photo: $photo,
     notes: $notes,
   };
-  localStorage.setItem(
-    `entryID-${formData.nextEntryId}`,
-    JSON.stringify($formInfo)
-  );
 
-  console.log('form submitted with data');
+  // js.data.entries.unshift($formInfo);
+
+  console.log($formInfo);
 
   formData.nextEntryId++;
 
