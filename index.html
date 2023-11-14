@@ -41,23 +41,26 @@
         </div>
         <div class="row">
           <div class="column-half">
-            <img class="photo" src="images/placeholder-image-square.jpg" />
+            <img
+              id="img"
+              class="photo"
+              src="images/placeholder-image-square.jpg" />
           </div>
           <div class="column-half">
             <div class="title">
               <label for="title">Title</label><br />
-              <input name="title" type="text" id="title" />
+              <input name="title" type="text" id="title" required />
             </div>
             <div class="photo-url">
               <label for="photo-url">Photo URL</label><br />
-              <input name="photo url" type="text" id="photo-url" />
+              <input name="photo url" type="text" id="photo-url" required />
             </div>
           </div>
         </div>
         <div class="row">
           <div class="column-full">
             <label for="notes">Notes</label><br />
-            <textarea name="notes" id="notes"></textarea><br />
+            <textarea name="notes" id="notes" required></textarea><br />
             <button type="submit">SAVE</button>
           </div>
         </div>
