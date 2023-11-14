@@ -1,3 +1,23 @@
+/* exported data */
+
+let data = {
+  view: 'entry-form',
+  entries: [],
+  editing: null,
+  nextEntryId: 1,
+};
+
+window.addEventListener('beforeunload', function (event) {
+  const dataJSON = JSON.stringify(data);
+  this.localStorage.setItem('local-storage', dataJSON);
+});
+
+const isData = localStorage.getItem('local-storage');
+if (isData !== null) {
+  data = JSON.parse(isData);
+}
+// end of data.js
+
 const $photoInput = document.getElementById('photo-url');
 const $img = document.getElementById('img');
 
@@ -5,40 +25,29 @@ $photoInput.addEventListener('input', function () {
   $img.src = $photoInput.value;
 });
 
-const formData = {
-  nextEntryId: 1,
-};
-
 const $form = document.getElementById('myForm');
 
-console.log('hello');
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
-  console.log('form submitted');
 
   const $title = document.querySelector('.title input').value;
-  console.log($title);
   const $photo = document.querySelector('.photo-url input').value;
-  console.log($photo);
   const $notes = document.querySelector('.notes textarea').value;
-  console.log($notes);
 
   const $formInfo = {
-    entryId: formData.nextEntryId,
+    entryId: data.nextEntryId,
     title: $title,
     photo: $photo,
     notes: $notes,
   };
 
-  // js.data.entries.unshift($formInfo);
+  data.nextEntryId++;
 
-  console.log($formInfo);
-
-  formData.nextEntryId++;
+  data.entries.unshift($formInfo);
 
   $img.src = 'images/placeholder-image-square.jpg';
 
   document.querySelector('.title input').value = '';
   document.querySelector('.photo-url input').value = '';
-  document.querySelector('.notes textarea').values = '';
+  document.querySelector('.notes textarea').value = '';
 });
