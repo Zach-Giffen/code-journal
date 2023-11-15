@@ -98,13 +98,30 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function toggleNoEntries() {
-  const noEntries = document.querySelector('.no-entry');
-
-  if (noEntries.classList.contains('hidden-entries')) {
-    noEntries.classList.remove('hidden-entries');
+  const noEntries = document.querySelector('.entry');
+  console.log(noEntries);
+  if (noEntries.classList.contains('hidden')) {
+    noEntries.classList.remove('hidden');
   } else {
-    noEntries.classList.add('hidden-entries');
+    noEntries.classList.add('hidden');
   }
 }
 
 console.log(toggleNoEntries());
+
+const entries = document.querySelector('.entries');
+const entryForm = document.querySelector('.entry-form');
+
+function viewSwap(view) {
+  console.log(view);
+  if (view === 'entries') {
+    entries.classList.remove('hidden');
+    entryForm.classList.add('hidden');
+  } else if (view === 'entry-form') {
+    entryForm.classList.remove('entry-form');
+    entries.classList('hidden');
+  }
+  data.view = view;
+}
+
+console.log(viewSwap);
