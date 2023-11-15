@@ -90,3 +90,21 @@ function renderEntry(entry) {
 
 console.log(renderEntry(data.entries[0]));
 console.log(renderEntry(data.entries[2]));
+
+document.addEventListener('DOMContentLoaded', function () {
+  for (let i = 0; i < data.entries.length; i++) {
+    renderEntry(data.entries[i]);
+  }
+});
+
+function toggleNoEntries() {
+  const noEntries = document.querySelector('.no-entry');
+
+  if (noEntries.classList.contains('hidden-entries')) {
+    noEntries.classList.remove('hidden-entries');
+  } else {
+    noEntries.classList.add('hidden-entries');
+  }
+}
+
+console.log(toggleNoEntries());

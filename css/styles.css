@@ -86,3 +86,12 @@ textarea:focus {
 ul {
   list-style-type: none;
 }
+
+.no-entry {
+  text-align: center;
+  width: 100%;
+}
+
+.hidden-entries {
+  display: none !important;
+}
