@@ -118,10 +118,18 @@ function viewSwap(view) {
     entries.classList.remove('hidden');
     entryForm.classList.add('hidden');
   } else if (view === 'entry-form') {
-    entryForm.classList.remove('entry-form');
-    entries.classList('hidden');
+    entryForm.classList.remove('hidden');
+    entries.classList.add('hidden');
   }
   data.view = view;
 }
 
-console.log(viewSwap);
+const SwapToEntries = document.getElementById('swapToEntries');
+SwapToEntries.addEventListener('click', function () {
+  viewSwap('entries');
+});
+
+const SwapToForm = document.getElementById('swapToForm');
+SwapToForm.addEventListener('click', function () {
+  viewSwap('entry-form');
+});
