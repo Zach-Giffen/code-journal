@@ -51,49 +51,59 @@ $form.addEventListener('submit', function (event) {
   document.querySelector('.title input').value = '';
   document.querySelector('.photo-url input').value = '';
   document.querySelector('.notes textarea').value = '';
+
+  entryList.prepend(renderEntry($formInfo));
+
+  viewSwap('entries');
+
+  toggleNoEntries();
 });
 
 function renderEntry(entry) {
-  const $unlisted = document.createElement('ul');
-  $unlisted.setAttribute('class', 'row');
+  // Create the main list item
+  const $listItem = document.createElement('li');
+  $listItem.setAttribute('class', 'row');
 
-  const $listPhoto = document.createElement('li');
-  $listPhoto.setAttribute('class', 'column-half');
+  // Create the column for the photo
+  const $columnPhoto = document.createElement('div');
+  $columnPhoto.setAttribute('class', 'column-half');
 
-  const $listImg = document.createElement('img');
-  $listImg.setAttribute('id', 'entryImg');
-  $listImg.setAttribute('class', 'photo-entry');
-  $listImg.setAttribute('src', entry.photo);
-  $listImg.setAttribute('alt', 'entry photo');
+  // Create the image element
+  const $image = document.createElement('img');
+  $image.setAttribute('id', 'entryImg2');
+  $image.setAttribute('class', 'photo');
+  $image.setAttribute('src', entry.photo); // or entry.photo
+  $image.setAttribute('alt', 'entry photo');
 
-  $listPhoto.appendChild($listImg);
+  // Append image to photo column
+  $columnPhoto.appendChild($image);
 
-  const $listText = document.createElement('li');
-  $listText.setAttribute('class', 'column-half');
+  // Create the column for the text
+  const $columnText = document.createElement('div');
+  $columnText.setAttribute('class', 'column-half');
 
-  const $listName = document.createElement('h2');
-  $listName.setAttribute('class', 'name-entry');
-  $listName.textContent = entry.title;
+  // Create and append the title
+  const $title = document.createElement('h2');
+  $title.textContent = entry.title; // 'Wizard of odd'
+  $columnText.appendChild($title);
 
-  const $listNotes = document.createElement('p');
-  $listNotes.setAttribute('class', 'notes-entry');
-  $listNotes.textContent = entry.notes;
+  // Create and append the paragraph
+  const $paragraph = document.createElement('p');
+  $paragraph.textContent = entry.notes; // 'Were going to see the wizard, the peculiar wizard of odd'
+  $columnText.appendChild($paragraph);
 
-  $listText.appendChild($listName);
-  $listText.appendChild($listNotes);
+  // Append both columns to the main list item
+  $listItem.appendChild($columnPhoto);
+  $listItem.appendChild($columnText);
 
-  $unlisted.appendChild($listPhoto);
-  $unlisted.appendChild($listText);
-
-  return $unlisted;
+  return $listItem;
 }
 
-console.log(renderEntry(data.entries[0]));
-console.log(renderEntry(data.entries[2]));
+const entryList = document.getElementById('entryList');
 
 document.addEventListener('DOMContentLoaded', function () {
   for (let i = 0; i < data.entries.length; i++) {
-    renderEntry(data.entries[i]);
+    entryList.appendChild(renderEntry(data.entries[i]));
   }
 });
 
