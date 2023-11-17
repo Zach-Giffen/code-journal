@@ -56,7 +56,9 @@ $form.addEventListener('submit', function (event) {
 
   viewSwap('entries');
 
-  toggleNoEntries();
+  if (data.entries.length <= 1) {
+    toggleNoEntries();
+  }
 });
 
 function renderEntry(entry) {
@@ -105,11 +107,15 @@ document.addEventListener('DOMContentLoaded', function () {
   for (let i = 0; i < data.entries.length; i++) {
     entryList.appendChild(renderEntry(data.entries[i]));
   }
+  viewSwap(data.view);
+
+  if (data.entries.length >= 1) {
+    toggleNoEntries();
+  }
 });
 
 function toggleNoEntries() {
   const noEntries = document.querySelector('.entry');
-  console.log(noEntries);
   if (noEntries.classList.contains('hidden')) {
     noEntries.classList.remove('hidden');
   } else {
@@ -117,13 +123,10 @@ function toggleNoEntries() {
   }
 }
 
-console.log(toggleNoEntries());
-
 const entries = document.querySelector('.entries');
 const entryForm = document.querySelector('.entry-form');
 
 function viewSwap(view) {
-  console.log(view);
   if (view === 'entries') {
     entries.classList.remove('hidden');
     entryForm.classList.add('hidden');
