@@ -62,41 +62,38 @@ $form.addEventListener('submit', function (event) {
 });
 
 function renderEntry(entry) {
-  // Create the main list item
   const $listItem = document.createElement('li');
   $listItem.setAttribute('class', 'row');
+  $listItem.setAttribute('data-entry-id', entry.entryId);
 
-  // Create the column for the photo
   const $columnPhoto = document.createElement('div');
   $columnPhoto.setAttribute('class', 'column-half');
 
-  // Create the image element
   const $image = document.createElement('img');
   $image.setAttribute('id', 'entryImg2');
   $image.setAttribute('class', 'photo');
-  $image.setAttribute('src', entry.photo); // or entry.photo
+  $image.setAttribute('src', entry.photo);
   $image.setAttribute('alt', 'entry photo');
 
-  // Append image to photo column
   $columnPhoto.appendChild($image);
 
-  // Create the column for the text
   const $columnText = document.createElement('div');
   $columnText.setAttribute('class', 'column-half');
 
-  // Create and append the title
   const $title = document.createElement('h2');
-  $title.textContent = entry.title; // 'Wizard of odd'
+  $title.textContent = entry.title;
   $columnText.appendChild($title);
 
-  // Create and append the paragraph
   const $paragraph = document.createElement('p');
-  $paragraph.textContent = entry.notes; // 'Were going to see the wizard, the peculiar wizard of odd'
+  $paragraph.textContent = entry.notes;
   $columnText.appendChild($paragraph);
 
-  // Append both columns to the main list item
   $listItem.appendChild($columnPhoto);
   $listItem.appendChild($columnText);
+
+  const $pencil = document.createElement('i');
+  $pencil.className = 'fa-solid fa-pencil';
+  $title.appendChild($pencil);
 
   return $listItem;
 }

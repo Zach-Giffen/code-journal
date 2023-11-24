@@ -125,3 +125,12 @@ h2 {
 li {
   margin-bottom: 50px;
 }
+
+/* stylelint-disable-next-line selector-id-pattern */
+#entryList {
+  margin-left: -20px;
+}
+
+.fa-solid.fa-pencil {
+  margin-left: 270px;
+}
