@@ -78,6 +78,7 @@ $form.addEventListener('submit', function (event) {
         $existingEntry.parentNode.replaceChild($newEntry, $existingEntry);
       }
     }
+    document.querySelector('.delete').classList.add('hidden');
     document.querySelector('.entryHeader').textContent = 'New Entry';
   }
 
@@ -170,6 +171,14 @@ function viewSwap(view) {
 const SwapToEntries = document.getElementById('swapToEntries');
 SwapToEntries.addEventListener('click', function () {
   viewSwap('entries');
+  data.editing = null;
+  $img.src = 'images/placeholder-image-square.jpg';
+
+  document.querySelector('.title input').value = '';
+  document.querySelector('.photo-url input').value = '';
+  document.querySelector('.notes textarea').value = '';
+  document.querySelector('.entryHeader').textContent = 'New Entry';
+  document.querySelector('.delete').classList.add('hidden');
 });
 
 const SwapToForm = document.getElementById('swapToForm');
@@ -199,4 +208,5 @@ entryList.addEventListener('click', function (event) {
 
     document.querySelector('.entryHeader').textContent = 'Edit Entry';
   }
+  document.querySelector('.delete').classList.remove('hidden');
 });
