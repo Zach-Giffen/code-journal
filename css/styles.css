@@ -125,3 +125,18 @@ h2 {
 li {
   margin-bottom: 50px;
 }
+
+/* stylelint-disable-next-line selector-id-pattern */
+#entryList {
+  margin-left: -20px;
+}
+
+.column-half {
+  position: relative;
+}
+
+.column-half .fa-solid.fa-pencil {
+  position: absolute;
+  top: 30px;
+  right: 0.75rem;
+}

@@ -31,28 +31,61 @@ const $form = document.getElementById('myForm');
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const $title = document.querySelector('.title input').value;
-  const $photo = document.querySelector('.photo-url input').value;
-  const $notes = document.querySelector('.notes textarea').value;
+  let $formInfo;
 
-  const $formInfo = {
-    entryId: data.nextEntryId,
-    title: $title,
-    photo: $photo,
-    notes: $notes,
-  };
+  if (data.editing === null) {
+    const $title = document.querySelector('.title input').value;
+    const $photo = document.querySelector('.photo-url input').value;
+    const $notes = document.querySelector('.notes textarea').value;
 
-  data.nextEntryId++;
+    $formInfo = {
+      entryId: data.nextEntryId,
+      title: $title,
+      photo: $photo,
+      notes: $notes,
+    };
 
-  data.entries.unshift($formInfo);
+    data.nextEntryId++;
+    data.entries.unshift($formInfo);
+
+    entryList.prepend(renderEntry($formInfo));
+  } else {
+    const $title = document.querySelector('.title input').value;
+    const $photo = document.querySelector('.photo-url input').value;
+    const $notes = document.querySelector('.notes textarea').value;
+
+    $formInfo = {
+      entryId: data.editing.entryId,
+      title: $title,
+      photo: $photo,
+      notes: $notes,
+    };
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === $formInfo.entryId) {
+        data.entries[i] = $formInfo;
+      }
+    }
+    data.editing = null;
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === $formInfo.entryId) {
+        const $existingEntry = document.querySelector(
+          `li[data-entry-id="${$formInfo.entryId}"]`
+        );
+
+        const $newEntry = renderEntry($formInfo);
+        $existingEntry.parentNode.replaceChild($newEntry, $existingEntry);
+      }
+    }
+    document.querySelector('.entryHeader').textContent = 'New Entry';
+  }
 
   $img.src = 'images/placeholder-image-square.jpg';
 
   document.querySelector('.title input').value = '';
   document.querySelector('.photo-url input').value = '';
   document.querySelector('.notes textarea').value = '';
-
-  entryList.prepend(renderEntry($formInfo));
 
   viewSwap('entries');
 
@@ -62,41 +95,38 @@ $form.addEventListener('submit', function (event) {
 });
 
 function renderEntry(entry) {
-  // Create the main list item
   const $listItem = document.createElement('li');
   $listItem.setAttribute('class', 'row');
+  $listItem.setAttribute('data-entry-id', entry.entryId);
 
-  // Create the column for the photo
   const $columnPhoto = document.createElement('div');
   $columnPhoto.setAttribute('class', 'column-half');
 
-  // Create the image element
   const $image = document.createElement('img');
   $image.setAttribute('id', 'entryImg2');
   $image.setAttribute('class', 'photo');
-  $image.setAttribute('src', entry.photo); // or entry.photo
+  $image.setAttribute('src', entry.photo);
   $image.setAttribute('alt', 'entry photo');
 
-  // Append image to photo column
   $columnPhoto.appendChild($image);
 
-  // Create the column for the text
   const $columnText = document.createElement('div');
   $columnText.setAttribute('class', 'column-half');
 
-  // Create and append the title
   const $title = document.createElement('h2');
-  $title.textContent = entry.title; // 'Wizard of odd'
+  $title.textContent = entry.title;
   $columnText.appendChild($title);
 
-  // Create and append the paragraph
   const $paragraph = document.createElement('p');
-  $paragraph.textContent = entry.notes; // 'Were going to see the wizard, the peculiar wizard of odd'
+  $paragraph.textContent = entry.notes;
   $columnText.appendChild($paragraph);
 
-  // Append both columns to the main list item
   $listItem.appendChild($columnPhoto);
   $listItem.appendChild($columnText);
+
+  const $pencil = document.createElement('i');
+  $pencil.className = 'fa-solid fa-pencil';
+  $columnText.appendChild($pencil);
 
   return $listItem;
 }
@@ -145,4 +175,28 @@ SwapToEntries.addEventListener('click', function () {
 const SwapToForm = document.getElementById('swapToForm');
 SwapToForm.addEventListener('click', function () {
   viewSwap('entry-form');
+});
+
+entryList.addEventListener('click', function (event) {
+  const clicked = event.target;
+  if (clicked.classList.contains('fa-pencil')) {
+    viewSwap('entry-form');
+
+    const entryId = clicked.closest('li').dataset.entryId;
+    for (let i = 0; i < data.entries.length; i++)
+      // eslint-disable-next-line eqeqeq
+      if (data.entries[i].entryId == entryId) {
+        console.log('hello');
+        data.editing = data.entries[i];
+        console.log(data.editing);
+        break;
+      }
+    document.querySelector('.title input').value = data.editing.title;
+    document.querySelector('.photo-url input').value = data.editing.photo;
+    document.querySelector('.notes textarea').value = data.editing.notes;
+
+    $photoInput.dispatchEvent(new Event('input'));
+
+    document.querySelector('.entryHeader').textContent = 'Edit Entry';
+  }
 });
