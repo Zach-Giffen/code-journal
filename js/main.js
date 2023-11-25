@@ -31,28 +31,61 @@ const $form = document.getElementById('myForm');
 $form.addEventListener('submit', function (event) {
   event.preventDefault();
 
-  const $title = document.querySelector('.title input').value;
-  const $photo = document.querySelector('.photo-url input').value;
-  const $notes = document.querySelector('.notes textarea').value;
+  let $formInfo;
 
-  const $formInfo = {
-    entryId: data.nextEntryId,
-    title: $title,
-    photo: $photo,
-    notes: $notes,
-  };
+  if (data.editing === null) {
+    const $title = document.querySelector('.title input').value;
+    const $photo = document.querySelector('.photo-url input').value;
+    const $notes = document.querySelector('.notes textarea').value;
 
-  data.nextEntryId++;
+    $formInfo = {
+      entryId: data.nextEntryId,
+      title: $title,
+      photo: $photo,
+      notes: $notes,
+    };
 
-  data.entries.unshift($formInfo);
+    data.nextEntryId++;
+    data.entries.unshift($formInfo);
+
+    entryList.prepend(renderEntry($formInfo));
+  } else {
+    const $title = document.querySelector('.title input').value;
+    const $photo = document.querySelector('.photo-url input').value;
+    const $notes = document.querySelector('.notes textarea').value;
+
+    $formInfo = {
+      entryId: data.editing.entryId,
+      title: $title,
+      photo: $photo,
+      notes: $notes,
+    };
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === $formInfo.entryId) {
+        data.entries[i] = $formInfo;
+      }
+    }
+    data.editing = null;
+
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === $formInfo.entryId) {
+        const $existingEntry = document.querySelector(
+          `li[data-entry-id="${$formInfo.entryId}"]`
+        );
+
+        const $newEntry = renderEntry($formInfo);
+        $existingEntry.parentNode.replaceChild($newEntry, $existingEntry);
+      }
+    }
+    document.querySelector('.entryHeader').textContent = 'New Entry';
+  }
 
   $img.src = 'images/placeholder-image-square.jpg';
 
   document.querySelector('.title input').value = '';
   document.querySelector('.photo-url input').value = '';
   document.querySelector('.notes textarea').value = '';
-
-  entryList.prepend(renderEntry($formInfo));
 
   viewSwap('entries');
 
