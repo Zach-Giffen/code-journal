@@ -143,3 +143,27 @@ const SwapToForm = document.getElementById('swapToForm');
 SwapToForm.addEventListener('click', function () {
   viewSwap('entry-form');
 });
+
+entryList.addEventListener('click', function (event) {
+  const clicked = event.target;
+  if (clicked.classList.contains('fa-pencil')) {
+    viewSwap('entry-form');
+
+    const entryId = clicked.closest('li').dataset.entryId;
+    for (let i = 0; i < data.entries.length; i++)
+      // eslint-disable-next-line eqeqeq
+      if (data.entries[i].entryId == entryId) {
+        console.log('hello');
+        data.editing = data.entries[i];
+        console.log(data.editing);
+        break;
+      }
+    document.querySelector('.title input').value = data.editing.title;
+    document.querySelector('.photo-url input').value = data.editing.photo;
+    document.querySelector('.notes textarea').value = data.editing.notes;
+
+    $photoInput.dispatchEvent(new Event('input'));
+
+    document.querySelector('.entryHeader').textContent = 'Edit Entry';
+  }
+});
