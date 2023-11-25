@@ -126,7 +126,7 @@ function renderEntry(entry) {
 
   const $pencil = document.createElement('i');
   $pencil.className = 'fa-solid fa-pencil';
-  $title.appendChild($pencil);
+  $columnText.appendChild($pencil);
 
   return $listItem;
 }

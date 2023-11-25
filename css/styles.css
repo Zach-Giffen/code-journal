@@ -131,6 +131,12 @@ li {
   margin-left: -20px;
 }
 
-.fa-solid.fa-pencil {
-  margin-left: 270px;
+.column-half {
+  position: relative;
+}
+
+.column-half .fa-solid.fa-pencil {
+  position: absolute;
+  top: 30px;
+  right: 0.75rem;
 }
