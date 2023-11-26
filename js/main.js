@@ -195,9 +195,7 @@ entryList.addEventListener('click', function (event) {
     for (let i = 0; i < data.entries.length; i++)
       // eslint-disable-next-line eqeqeq
       if (data.entries[i].entryId == entryId) {
-        console.log('hello');
         data.editing = data.entries[i];
-        console.log(data.editing);
         break;
       }
     document.querySelector('.title input').value = data.editing.title;
@@ -209,4 +207,13 @@ entryList.addEventListener('click', function (event) {
     document.querySelector('.entryHeader').textContent = 'Edit Entry';
   }
   document.querySelector('.delete').classList.remove('hidden');
+});
+
+document.querySelector('.delete').addEventListener('click', function () {
+  console.log('delete button pressed');
+  document.querySelector('.modal-box').classList.remove('hidden');
+});
+
+document.querySelector('.cancelButton').addEventListener('click', function () {
+  document.querySelector('.modal-box').classList.add('hidden');
 });
