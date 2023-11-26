@@ -187,6 +187,9 @@ li {
   color: black;
   border-width: 0;
   float: left;
+  font-size: 12px;
+  padding-left: 15px;
+  font-weight: 600;
 }
 
 .confirmButton {
@@ -197,4 +200,32 @@ li {
   border-radius: 4px;
   background-color: #dc2626;
   border-width: 0;
+  font-size: 12px;
+  padding-left: 15px;
+  font-weight: 600px;
+}
+
+@media screen and (min-width: 768px) {
+  .confirmButton {
+    width: 92px;
+    height: 32px;
+    top: 457px;
+    left: 773px;
+    border-radius: 4px;
+    background-color: #dc2626;
+    border-width: 0;
+    font-size: 12px;
+  }
+
+  .cancelButton {
+    width: 84px;
+    height: 32px;
+    top: 457px;
+    left: 574px;
+    border-radius: 4px;
+    background-color: #b6b6b6;
+    color: black;
+    border-width: 0;
+    float: left;
+  }
 }
