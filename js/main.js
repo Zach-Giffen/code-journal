@@ -204,7 +204,6 @@ entryList.addEventListener('click', function (event) {
 });
 
 document.querySelector('.delete').addEventListener('click', function () {
-  console.log('delete button pressed');
   document.querySelector('.modal-box').classList.remove('hidden');
 });
 
