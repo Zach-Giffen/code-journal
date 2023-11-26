@@ -89,10 +89,7 @@ $form.addEventListener('submit', function (event) {
   document.querySelector('.notes textarea').value = '';
 
   viewSwap('entries');
-
-  if (data.entries.length <= 1) {
-    toggleNoEntries();
-  }
+  toggleNoEntries();
 });
 
 function renderEntry(entry) {
@@ -139,15 +136,12 @@ document.addEventListener('DOMContentLoaded', function () {
     entryList.appendChild(renderEntry(data.entries[i]));
   }
   viewSwap(data.view);
-
-  if (data.entries.length >= 1) {
-    toggleNoEntries();
-  }
+  toggleNoEntries();
 });
 
 function toggleNoEntries() {
   const noEntries = document.querySelector('.entry');
-  if (noEntries.classList.contains('hidden')) {
+  if (data.entries.length === 0) {
     noEntries.classList.remove('hidden');
   } else {
     noEntries.classList.add('hidden');
@@ -216,4 +210,30 @@ document.querySelector('.delete').addEventListener('click', function () {
 
 document.querySelector('.cancelButton').addEventListener('click', function () {
   document.querySelector('.modal-box').classList.add('hidden');
+});
+
+document.querySelector('.confirmButton').addEventListener('click', function () {
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i] === data.editing) {
+      data.entries.splice(i, 1);
+      const entryElement = document.querySelector(
+        `li[data-entry-id="${data.editing.entryId}"]`
+      );
+      if (entryElement) {
+        entryElement.remove();
+      }
+      data.editing = null;
+      $img.src = 'images/placeholder-image-square.jpg';
+      document.querySelector('.title input').value = '';
+      document.querySelector('.photo-url input').value = '';
+      document.querySelector('.notes textarea').value = '';
+      document.querySelector('.entryHeader').textContent = 'New Entry';
+      document.querySelector('.delete').classList.add('hidden');
+      toggleNoEntries();
+      break;
+    }
+  }
+
+  document.querySelector('.modal-box').classList.add('hidden');
+  viewSwap('entries');
 });
