@@ -78,6 +78,7 @@ $form.addEventListener('submit', function (event) {
         $existingEntry.parentNode.replaceChild($newEntry, $existingEntry);
       }
     }
+    document.querySelector('.delete').classList.add('hidden');
     document.querySelector('.entryHeader').textContent = 'New Entry';
   }
 
@@ -88,10 +89,7 @@ $form.addEventListener('submit', function (event) {
   document.querySelector('.notes textarea').value = '';
 
   viewSwap('entries');
-
-  if (data.entries.length <= 1) {
-    toggleNoEntries();
-  }
+  toggleNoEntries();
 });
 
 function renderEntry(entry) {
@@ -138,15 +136,12 @@ document.addEventListener('DOMContentLoaded', function () {
     entryList.appendChild(renderEntry(data.entries[i]));
   }
   viewSwap(data.view);
-
-  if (data.entries.length >= 1) {
-    toggleNoEntries();
-  }
+  toggleNoEntries();
 });
 
 function toggleNoEntries() {
   const noEntries = document.querySelector('.entry');
-  if (noEntries.classList.contains('hidden')) {
+  if (data.entries.length === 0) {
     noEntries.classList.remove('hidden');
   } else {
     noEntries.classList.add('hidden');
@@ -170,6 +165,14 @@ function viewSwap(view) {
 const SwapToEntries = document.getElementById('swapToEntries');
 SwapToEntries.addEventListener('click', function () {
   viewSwap('entries');
+  data.editing = null;
+  $img.src = 'images/placeholder-image-square.jpg';
+
+  document.querySelector('.title input').value = '';
+  document.querySelector('.photo-url input').value = '';
+  document.querySelector('.notes textarea').value = '';
+  document.querySelector('.entryHeader').textContent = 'New Entry';
+  document.querySelector('.delete').classList.add('hidden');
 });
 
 const SwapToForm = document.getElementById('swapToForm');
@@ -186,9 +189,7 @@ entryList.addEventListener('click', function (event) {
     for (let i = 0; i < data.entries.length; i++)
       // eslint-disable-next-line eqeqeq
       if (data.entries[i].entryId == entryId) {
-        console.log('hello');
         data.editing = data.entries[i];
-        console.log(data.editing);
         break;
       }
     document.querySelector('.title input').value = data.editing.title;
@@ -199,4 +200,39 @@ entryList.addEventListener('click', function (event) {
 
     document.querySelector('.entryHeader').textContent = 'Edit Entry';
   }
+  document.querySelector('.delete').classList.remove('hidden');
+});
+
+document.querySelector('.delete').addEventListener('click', function () {
+  document.querySelector('.modal-box').classList.remove('hidden');
+});
+
+document.querySelector('.cancelButton').addEventListener('click', function () {
+  document.querySelector('.modal-box').classList.add('hidden');
+});
+
+document.querySelector('.confirmButton').addEventListener('click', function () {
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i] === data.editing) {
+      data.entries.splice(i, 1);
+      const entryElement = document.querySelector(
+        `li[data-entry-id="${data.editing.entryId}"]`
+      );
+      if (entryElement) {
+        entryElement.remove();
+      }
+      data.editing = null;
+      $img.src = 'images/placeholder-image-square.jpg';
+      document.querySelector('.title input').value = '';
+      document.querySelector('.photo-url input').value = '';
+      document.querySelector('.notes textarea').value = '';
+      document.querySelector('.entryHeader').textContent = 'New Entry';
+      document.querySelector('.delete').classList.add('hidden');
+      toggleNoEntries();
+      break;
+    }
+  }
+
+  document.querySelector('.modal-box').classList.add('hidden');
+  viewSwap('entries');
 });
